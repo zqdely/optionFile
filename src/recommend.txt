@@ -1,0 +1,6 @@
+操作word文档需要的jar：
+	poi-3.15-beta2.jar
+	poi-ooxml-3.15-beta2.jar
+	poi-ooxml-schemas-3.15-beta2.jar
+	poi-scratchpad-3.15-beta2.jar
+	xmlbeans-2.6.0.jar

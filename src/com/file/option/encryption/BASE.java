@@ -1,7 +1,12 @@
 package com.file.option.encryption;
 
+import java.io.UnsupportedEncodingException;  
+import sun.misc.BASE64Decoder;  
+import sun.misc.BASE64Encoder;  
 
 /*
+ * base64是用来避免乱码的
+ * 
 BASE的加密解密是双向的，可以求反解.
 BASEEncoder和BASEDecoder是非官方JDK实现类。虽然可以在JDK里能找到并使用，但是在API里查不到。
 JRE 中 sun 和 com.sun 开头包的类都是未被文档化的，他们属于 java, javax 类库的基础，其中的实现大多数与底层平台有关，
@@ -24,7 +29,7 @@ public class BASE {
 	   * @throws Exception 
 	   */ 
 	  public static byte[] decryptBASE(String key) throws Exception { 
-	    return (new BASEDecoder()).decodeBuffer(key); 
+	    return (new BASE64Decoder()).decodeBuffer(key); 
 	  } 
 	  /** 
 	   * BASE加密 
@@ -34,16 +39,18 @@ public class BASE {
 	   * @throws Exception 
 	   */ 
 	  public static String encryptBASE(byte[] key) throws Exception { 
-	    return (new BASEEncoder()).encodeBuffer(key); 
+	    return (new BASE64Encoder()).encodeBuffer(key); 
 	  } 
+	  
+	  
 	  public static void main(String[] args) {
-	   String str="";
+	   String str="12312312asDADFAD";
 	    try {
-	    String result= BASE.encryptBASE(str.getBytes());
+	    String result= BASE.encryptBASE(str.getBytes("utf-8"));
 	     System.out.println("result=====加密数据=========="+result);
-	     byte result[]= BASE.decryptBASE(result);
-	     String str=new String(result);
-	     System.out.println("str========解密数据========"+str);
+	     byte[] result1= BASE.decryptBASE(result);
+	     String str1 = new String(result1, "utf-8");
+	     System.out.println("str========解密数据========"+str1);
 	  } catch (Exception e) {
 	    e.printStackTrace();
 	  }

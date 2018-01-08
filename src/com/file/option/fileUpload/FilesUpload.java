@@ -11,6 +11,15 @@ import java.io.OutputStreamWriter;
  *
  */
 public class FilesUpload {
+	
+	/**
+	 * 上传文件到指定目录
+	 * @param fileData 文件数据
+	 * @param Path 路径
+	 * @param fileName 文件名
+	 * @param charset 编码格式
+	 * @throws Exception
+	 */
 	public void saveFiles(String fileData, String Path, String fileName, String charset) throws Exception{
 		
 		FileOutputStream  fileOut = null;

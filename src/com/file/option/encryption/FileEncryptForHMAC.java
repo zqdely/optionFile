@@ -6,9 +6,23 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import com.cn.comm.Tools;
 
-public abstract class HMAC {
+/**
+ * 文件加密（将文件转换成加密文件加密）
+ * @author lenovo
+ *
+ */
+public abstract class FileEncryptForHMAC {
 
 	public static final String KEY_MAC = "HmacMD"; 
+	
+	public String getClassPath(){
+		//类的绝对路径
+		return Class.class.getClass().getResource("/").getPath();
+		
+		//得到工程的路径
+		//System.getProperty("user.dir");
+		
+	}
 	  /** 
 	   * 初始化HMAC密钥 
 	   * 
@@ -34,19 +48,20 @@ public abstract class HMAC {
 	    mac.init(secretKey); 
 	    return new String(mac.doFinal(data)); 
 	  } 
-	  public static String getResult(String inputStr)
+	  
+	  public String getResult(String inputStr)
 	  {
-	    String path=Tools.getClassPath();
+	    String path = getClassPath();
 	    String fileSource=path+"/file/HMAC_key.txt";
 	    System.out.println("=======加密前的数据:"+inputStr);
 	    String result=null;
 	    try {
 	      byte[] inputData = inputStr.getBytes();
-	      String key = HMAC.initMacKey(); /*产生密钥*/ 
+	      String key = FileEncryptForHMAC.initMacKey(); /*产生密钥*/ 
 	      System.out.println("Mac密钥:===" + key); 
 	      /*将密钥写文件*/
 	      Tools.WriteMyFile(fileSource,key);
-	      result= HMAC.encryptHMAC(inputData, key);
+	      result= FileEncryptForHMAC.encryptHMAC(inputData, key);
 	      System.out.println("HMAC加密后:===" + result);
 	    } catch (Exception e) {e.printStackTrace();} 
 	    return result.toString();
@@ -67,7 +82,7 @@ public abstract class HMAC {
 	    try {
 	      byte[] inputData = inputStr.getBytes(); 
 	      /*对数据进行加密*/
-	      result= HMAC.encryptHMAC(inputData, key);
+	      result= FileEncryptForHMAC.encryptHMAC(inputData, key);
 	      System.out.println("HMAC加密后:===" + result);
 	    } catch (Exception e) {e.printStackTrace();} 
 	    return result.toString();

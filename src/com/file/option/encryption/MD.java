@@ -23,12 +23,8 @@ public class MD {
 	  
 	  public static void main(String args[])
 	  {
-	    try {
 	       String inputStr = "ºÚµ•º”√‹"; 
 	       getResult(inputStr);
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    }
 	  }
 	
 }

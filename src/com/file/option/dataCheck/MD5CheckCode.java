@@ -35,8 +35,16 @@ public class MD5CheckCode implements CheckInterface {
 			
 		}
 		
-		//md5.digest()完成摘要计算
-		return new BigInteger(md5.digest()).toString();
+		//md5.digest()完成摘要计算   abs()返回其值是此 BigInteger 的绝对值的
+		return new BigInteger(md5.digest()).abs().toString();
+	}
+	
+	public static void main(String[] args) {
+		
+		CheckInterface check = new MD5CheckCode();
+		
+		System.out.println(check.getCheckCode("测试报文"));
+		
 	}
 	
 }

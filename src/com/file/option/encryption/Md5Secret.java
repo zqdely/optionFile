@@ -47,6 +47,8 @@ public class Md5Secret implements EncodeEncryptInterface {
         	
             byteArray[i] = (byte) charArray[i];
         
+        //digest()使用指定的byte数组对对摘要进行最后更新，然后完成摘要计算
+        
         byte[] md5Bytes = md5.digest(byteArray);
         
         StringBuffer hexValue = new StringBuffer();

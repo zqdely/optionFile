@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 
 public class MD {
 
-	public static final String KEY_MD = "MD"; 
+	public static final String KEY_MD = "MD5"; 
 	  public static String getResult(String inputStr)
 	  {
 	    System.out.println("=======加密前的数据:"+inputStr);

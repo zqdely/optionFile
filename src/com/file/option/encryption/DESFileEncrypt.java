@@ -16,6 +16,13 @@ import javax.crypto.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * DES文件加密/解密  
+ * 		加密：需要加密文件输入流inputStream 加密之后文件路径destFile 创建时间createTime
+ * 		解密：需要解密文件输出流outputStream 解密之后文件路径destFile 创建时间createTime
+ * @author Ally
+ *
+ */
 public class DESFileEncrypt implements FileEncryptInterface {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

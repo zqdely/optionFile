@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+	default-autowire="byName"
+	>
+	<!----------------------------------------- spring异步线程池start ------------------------------------------------------------------>
+	<!-- 异步线程池 -->
+    <bean id="executor"
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数 -->
+        <property name="corePoolSize" value="3" />
+        <!-- 最大线程数 -->
+        <property name="maxPoolSize" value="10" />
+        <!-- 队列最大长度 >=mainExecutor.maxSize -->
+        <property name="queueCapacity" value="25" />
+        <!-- 线程池维护线程所允许的空闲时间 -->
+        <property name="keepAliveSeconds" value="300" />
+        <!-- 线程池对拒绝任务(无线程可用)的处理策略 ThreadPoolExecutor.CallerRunsPolicy策略 ,调用者的线程会执行该任务,如果执行器已关闭,则丢弃.  -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+    <!----------------------------------------- spring异步线程池end ------------------------------------------------------------------>
+    
+    <!----------------------------------------- spring同步线程 ------------------------------------------------------------------>
+    
+    <bean id="taskESExecutor000102" class="org.springframework.core.task.SyncTaskExecutor">
+    </bean>
+    
+    <!----------------------------------------- spring同步线程 ------------------------------------------------------------------>
+    
+    <!----------------------------------------- quartz定时任务start 依赖jar：org.springframework.context.support-3.1.1.RELEASE.jar------------------------------------------------------------------>
+    <bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    	<!-- 延迟60s加载 -->
+    	<property name="startupDelay" value="60" />
+    	<!-- 触发器列表 -->
+    	<property name="triggers">
+    		<list>
+    			<!-- 需要调用的触发器bean名称  多个的时候并列添加 -->
+    			<ref bean="resendMessageTrigger"/>
+    		</list>
+    	</property>
+    </bean>
+    <!-- 触发器 -->
+    <bean id="resendMessageTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<!-- 定时任务的类和方法 -->
+    	<property name="jobDetail" ref="AutoQueueJob" />
+    	<!-- 定时时间表达式 -->
+    	<property name="cronExpression" value="0 0/5 * * * ?" />
+    </bean>
+    <!-- 定时任务的类和方法 -->
+    <bean id="AutoQueueJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+    		<!-- 调用的bean -->
+    		<bean id="beanId" class="userClassPath" />
+    	</property>
+    	<!-- 调用的bean中的方法value值中 -->
+    	<property name="targetMethod" value="exec" />
+    </bean>
+    <!----------------------------------------- quartz定时任务end ------------------------------------------------------------------>
+	
+</beans>
